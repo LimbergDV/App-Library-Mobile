@@ -1,7 +1,8 @@
-package com.limbergdv.app_library_mobile.features.library.presentation.viewmodels
+package com.limbergdv.app_library_mobile.features.login.presentation.viewmodels
 
+import android.util.Patterns
 import androidx.lifecycle.ViewModel
-import com.limbergdv.app_library_mobile.features.library.presentation.screens.LoginUiState
+import com.limbergdv.app_library_mobile.features.login.presentation.screens.LoginUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -27,7 +28,7 @@ class LoginViewModel: ViewModel() {
             return
         }
 
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(_uiState.value.email).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(_uiState.value.email).matches()) {
             _uiState.update { it.copy(emailError = "Ingresa un correo válido") }
             return
         }

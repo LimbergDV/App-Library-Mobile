@@ -1,4 +1,4 @@
-package com.limbergdv.app_library_mobile.features.library.presentation.screens
+package com.limbergdv.app_library_mobile.features.login.presentation.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.limbergdv.app_library_mobile.R
-import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.LoginViewModel
+import com.limbergdv.app_library_mobile.features.login.presentation.viewmodels.LoginViewModel
 
 
 @Composable
