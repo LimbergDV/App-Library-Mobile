@@ -5,23 +5,28 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.google.gson.Gson
+import com.limbergdv.app_library_mobile.core.di.AppContainer
 import com.limbergdv.app_library_mobile.core.navigation.BookAdd
 import com.limbergdv.app_library_mobile.core.navigation.BookDetail
 import com.limbergdv.app_library_mobile.core.navigation.BookEdit
 import com.limbergdv.app_library_mobile.core.navigation.BooksList
 import com.limbergdv.app_library_mobile.core.navigation.FeatureNavGraph
+import com.limbergdv.app_library_mobile.features.library.di.BooksModule
 import com.limbergdv.app_library_mobile.features.library.domain.entities.Book
 import com.limbergdv.app_library_mobile.features.library.presentation.screens.AddBookScreen
 import com.limbergdv.app_library_mobile.features.library.presentation.screens.BookDetailScreen
 import com.limbergdv.app_library_mobile.features.library.presentation.screens.BooksListScreen
 import com.limbergdv.app_library_mobile.features.library.presentation.screens.EditBookScreen
 
-class BooksNavGraph : FeatureNavGraph {
+class BooksNavGraph (
+    private val appContainer: AppContainer
+) : FeatureNavGraph {
 
     override fun registerGraph(navGraphBuilder: NavGraphBuilder, navController: NavController) {
 
         navGraphBuilder.composable<BooksList> {
             BooksListScreen(
+                factory = BooksModule(appContainer).provideBooksListViewModelFactory(),
                 onNavigateToAddBook = {
                     navController.navigate(BookAdd)
                 },
