@@ -8,7 +8,7 @@ class AuthModule (
     private val appContainer: AppContainer
 ) {
     private fun providerLoginUseCase(): LoginUseCase {
-        return LoginUseCase(appContainer.authRepository, appContainer.sessionManagerProvider)
+        return LoginUseCase(appContainer.authRepository)
     }
 
     fun provideLoginViewModelFactory(): LoginViewModelFactory {

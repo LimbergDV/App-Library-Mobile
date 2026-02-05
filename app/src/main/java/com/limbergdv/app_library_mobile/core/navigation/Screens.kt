@@ -16,3 +16,6 @@ object BookAdd
 
 @Serializable
 object Login
+
+@Serializable
+object Register

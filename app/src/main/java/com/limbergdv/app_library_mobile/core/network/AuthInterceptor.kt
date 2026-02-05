@@ -1,0 +1,24 @@
+package com.limbergdv.app_library_mobile.core.network
+
+import com.limbergdv.app_library_mobile.core.storage.TokenManager
+import okhttp3.Interceptor
+import okhttp3.Response
+
+class AuthInterceptor(private val tokenManager: TokenManager) : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val originalRequest = chain.request()
+        val token = tokenManager.getToken()
+
+        // Si no hay token, hacemos la petición normal (ej. Login/Register)
+        if (token == null) {
+            return chain.proceed(originalRequest)
+        }
+
+        // Si hay token, creamos una nueva petición con el header
+        val newRequest = originalRequest.newBuilder()
+            .addHeader("Authorization", "Bearer $token")
+            .build()
+
+        return chain.proceed(newRequest)
+    }
+}

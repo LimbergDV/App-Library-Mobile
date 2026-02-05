@@ -6,6 +6,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface LibraryApi {
-    @POST("/auth/login")
+    @POST("auth/login")
     suspend fun login(@Body user: User): AuthDataLoginDto
 }

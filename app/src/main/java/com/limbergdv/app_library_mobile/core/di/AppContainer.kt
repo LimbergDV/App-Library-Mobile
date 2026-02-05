@@ -1,31 +1,31 @@
 package com.limbergdv.app_library_mobile.core.di
 
 import android.content.Context
-import com.limbergdv.app_library_mobile.core.SessionManager
+import com.limbergdv.app_library_mobile.core.network.AuthInterceptor
 import com.limbergdv.app_library_mobile.core.network.LibraryApi
+import com.limbergdv.app_library_mobile.core.storage.TokenManager
 import com.limbergdv.app_library_mobile.features.auth.data.repositories.AuthRepositoryImpl
 import com.limbergdv.app_library_mobile.features.auth.domain.repositories.AuthRepository
-import com.limbergdv.app_library_mobile.features.auth.domain.usecases.LoginUseCase
+import com.limbergdv.app_library_mobile.features.library.data.repositories.BooksRepositoryImpl
+import com.limbergdv.app_library_mobile.features.library.domain.repositories.BooksRepository
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class AppContainer(context: Context) {
 
-    private val sessionManager = SessionManager(context)
+    val tokenManager: TokenManager by lazy {
+        TokenManager(context)
+    }
 
-    private val okHttpClient = OkHttpClient.Builder()
-        .addInterceptor { chain ->
-            val request = chain.request().newBuilder()
-            sessionManager.fetchAuthToken()?.let {
-                request.addHeader("Authorization", "Bearer $it")
-            }
-            chain.proceed(request.build())
-        }
-        .build()
+    private val okHttpClient: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(AuthInterceptor(tokenManager))
+            .build()
+    }
 
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("https://api.aleosh.online/")
+        .baseUrl("https://api1.aleosh.online/")
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
@@ -35,10 +35,7 @@ class AppContainer(context: Context) {
     }
 
     val authRepository: AuthRepository by lazy {
-        AuthRepositoryImpl(libraryApi)
+        AuthRepositoryImpl(libraryApi, tokenManager)
     }
 
-    val sessionManagerProvider: SessionManager by lazy {
-        sessionManager
-    }
 }

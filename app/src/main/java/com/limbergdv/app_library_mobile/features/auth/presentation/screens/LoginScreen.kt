@@ -43,14 +43,11 @@ import com.limbergdv.app_library_mobile.features.auth.presentation.viewmodels.Lo
 
 @Composable
 fun LoginScreen(
+    factory: LoginViewModelFactory, // <--- Aquí recibimos el factory inyectado
     onNavigateToRegister: () -> Unit = {},
     onLoginSuccess: () -> Unit = {},
 ) {
-    val context = LocalContext.current
-    val appContainer = (context.applicationContext as LibraryApp).appContainer
-    val viewModel: LoginViewModel = viewModel(
-        factory = LoginViewModelFactory(appContainer.loginUseCase)
-    )
+    val viewModel: LoginViewModel = viewModel(factory = factory)
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

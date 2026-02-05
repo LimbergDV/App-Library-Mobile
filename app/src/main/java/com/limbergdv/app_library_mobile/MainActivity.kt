@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.limbergdv.app_library_mobile.core.di.AppContainer
+import com.limbergdv.app_library_mobile.core.navigation.AuthNavGraph
 import com.limbergdv.app_library_mobile.core.navigation.NavigationWrapper
 import com.limbergdv.app_library_mobile.core.ui.theme.AppTheme
 import com.limbergdv.app_library_mobile.features.library.navigation.BooksNavGraph
@@ -19,8 +20,12 @@ class MainActivity : ComponentActivity() {
 
         appContainer = AppContainer(this)
 
+        val authNavGraph = AuthNavGraph(appContainer)
+        val booksNavGraph = BooksNavGraph()
+
         val navGraphs = listOf(
-            BooksNavGraph()
+            authNavGraph,
+            booksNavGraph
         )
 
         enableEdgeToEdge()

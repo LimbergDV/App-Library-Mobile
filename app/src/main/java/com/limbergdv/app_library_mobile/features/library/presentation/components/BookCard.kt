@@ -73,7 +73,7 @@ fun BookCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = book.pages,
+                    text = "a",//book.pages,
                     fontSize = 12.sp,
                     color = Color.White.copy(alpha = 0.8f)
                 )

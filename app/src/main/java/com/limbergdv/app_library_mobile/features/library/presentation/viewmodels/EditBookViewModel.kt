@@ -17,7 +17,7 @@ class EditBookViewModel : ViewModel() {
                 title = book.title,
                 author = book.author,
                 editorial = book.editorial,
-                pages = book.pages,
+                pages = book.numberOfPages.toString(),
 
             )
         }

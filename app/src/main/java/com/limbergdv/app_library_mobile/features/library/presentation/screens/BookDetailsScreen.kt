@@ -146,7 +146,7 @@ fun BookDetailScreen(
 
             // Campo: Páginas del libro (solo lectura)
             OutlinedTextField(
-                value = uiState.book?.pages ?: "",
+                value = uiState.book?.numberOfPages.toString() ?: "",
                 onValueChange = {},
                 label = { Text("Páginas del libro") },
                 placeholder = { Text("Ingresa las páginas del libro") },

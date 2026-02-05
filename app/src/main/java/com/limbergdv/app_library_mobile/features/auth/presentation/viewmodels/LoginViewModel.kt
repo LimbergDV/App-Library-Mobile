@@ -53,7 +53,8 @@ class LoginViewModel(
         _uiState.update { it.copy(isLoading = true) }
 
         viewModelScope.launch {
-            val result = loginUseCase(User(id = "", email = currentEmail, password = currentPassword))
+            val result = loginUseCase.invoke(User(id = "", email = currentEmail, password = currentPassword))
+
             result.fold(
                 onSuccess = { data ->
                     _uiState.update {
