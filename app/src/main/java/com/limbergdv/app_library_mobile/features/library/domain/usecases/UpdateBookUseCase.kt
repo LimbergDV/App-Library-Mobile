@@ -1,44 +1,38 @@
 package com.limbergdv.app_library_mobile.features.library.domain.usecases
 
 import com.limbergdv.app_library_mobile.features.library.domain.entities.Book
-import com.limbergdv.app_library_mobile.features.library.domain.repositories.BooksRepository
+import com.limbergdv.app_library_mobile.features.library.domain.repositories.BookRepository
 import java.io.File
 
 class UpdateBookUseCase(
-    private val repository: BooksRepository
+    private val repository: BookRepository
 ) {
-    suspend operator fun invoke(
-        id: String,
-        title: String,
-        author: String,
-        editorial: String,
-        numberOfPages: Int,
-        imageFile: File?
-    ): Result<Book> {
+    suspend operator fun invoke(book: Book, image: File): Result<Book> {
         return try {
             // Validaciones de negocio
-            if (id.isBlank()) {
+            if (book.id.isBlank()) {
                 return Result.failure(Exception("El ID del libro es requerido"))
             }
 
-            if (title.isBlank()) {
+            if (book.title.isBlank()) {
                 return Result.failure(Exception("El título es requerido"))
             }
 
-            if (author.isBlank()) {
+            if (book.author.isBlank()) {
                 return Result.failure(Exception("El autor es requerido"))
             }
 
-            if (editorial.isBlank()) {
+            if (book.editorial.isBlank()) {
                 return Result.failure(Exception("La editorial es requerida"))
             }
 
-            if (numberOfPages <= 0) {
+            if (book.numberOfPages <= 0) {
                 return Result.failure(Exception("El número de páginas debe ser mayor a 0"))
             }
 
-            // Llamar al repositorio
-            repository.updateBook(id, title, author, editorial, numberOfPages, imageFile)
+            val result = repository.updateBook(book, image)
+            Result.success(result)
+
         } catch (e: Exception) {
             Result.failure(e)
         }
