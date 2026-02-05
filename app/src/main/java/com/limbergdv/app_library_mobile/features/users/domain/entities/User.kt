@@ -1,4 +1,4 @@
-package com.limbergdv.app_library_mobile.features.users.domain
+package com.limbergdv.app_library_mobile.features.users.domain.entities
 
 data class User(
     val id: String,
