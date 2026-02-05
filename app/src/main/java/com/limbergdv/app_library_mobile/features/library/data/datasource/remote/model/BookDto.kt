@@ -19,8 +19,8 @@ data class BookDto(
     val numberOfPages: Int,
 
     @SerializedName("urlImage")
-    val urlImage: String?,
+    val urlImage: String,
 
     @SerializedName("backgroundColor")
-    val backgroundColor: String?
+    val backgroundColor: String
 )
