@@ -7,13 +7,13 @@ data class ApiResponse<T>(
     val success: Boolean,
 
     @SerializedName("data")
-    val data: T?,
+    val data: T,
 
     @SerializedName("message")
-    val message: String?,
+    val message: String,
 
     @SerializedName("status")
-    val status: String?
+    val status: String
 )
 
 // Respuesta para lista de libros
@@ -22,11 +22,11 @@ data class BooksListResponse(
     val success: Boolean,
 
     @SerializedName("data")
-    val data: List<BookDto>?,
+    val data: List<BookDto>,
 
     @SerializedName("message")
-    val message: String?,
+    val message: String,
 
     @SerializedName("status")
-    val status: String?
+    val status: String
 )
