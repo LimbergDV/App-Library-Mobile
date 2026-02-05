@@ -1,4 +1,4 @@
-package com.limbergdv.app_library_mobile.core.theme
+package com.limbergdv.app_library_mobile.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,7 +1,7 @@
 package com.limbergdv.app_library_mobile.features.library.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.limbergdv.app_library_mobile.features.library.presentation.screeens.LoginUiState
+import com.limbergdv.app_library_mobile.features.library.presentation.screens.LoginUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
