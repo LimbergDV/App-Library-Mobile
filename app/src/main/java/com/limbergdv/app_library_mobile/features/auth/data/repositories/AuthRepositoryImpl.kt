@@ -5,7 +5,7 @@ import com.limbergdv.app_library_mobile.core.storage.TokenManager
 import com.limbergdv.app_library_mobile.features.auth.data.datasources.remote.mappers.toDomain
 import com.limbergdv.app_library_mobile.features.auth.domain.entities.AuthDataLogin
 import com.limbergdv.app_library_mobile.features.auth.domain.repositories.AuthRepository
-import com.limbergdv.app_library_mobile.features.users.domain.User
+import com.limbergdv.app_library_mobile.features.users.domain.entities.User
 
 class AuthRepositoryImpl (
     private val api: LibraryApi,
