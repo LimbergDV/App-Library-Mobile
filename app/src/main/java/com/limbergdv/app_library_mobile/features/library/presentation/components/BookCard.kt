@@ -91,26 +91,16 @@ fun BookCard(
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            Box(
+            AsyncImage(
+                model = book.urlImage,
+                contentDescription = "Imagen del libro",
                 modifier = Modifier
-                    .size(width = 70.dp, height = 100.dp)
-                    .background(
-                        backgroundColor,
-                        RoundedCornerShape(8.dp)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
+                    .size(180.dp)
+                    .padding(16.dp),
+                contentScale = ContentScale.Fit
+            )
 
-                AsyncImage(
-                    model = book.urlImage,
-                    contentDescription = "Imagen del libro",
-                    modifier = Modifier
-                        .size(180.dp)
-                        .padding(16.dp),
-                    contentScale = ContentScale.Fit
-                )
 
-            }
         }
     }
 }
