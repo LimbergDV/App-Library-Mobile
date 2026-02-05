@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         appContainer = AppContainer(this)
 
         val authNavGraph = AuthNavGraph(appContainer)
-        val booksNavGraph = BooksNavGraph()
+        val booksNavGraph = BooksNavGraph(appContainer)
 
         val navGraphs = listOf(
             authNavGraph,

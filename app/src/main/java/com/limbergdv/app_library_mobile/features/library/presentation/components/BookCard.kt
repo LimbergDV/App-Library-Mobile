@@ -19,10 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.limbergdv.app_library_mobile.features.library.domain.entities.Book
 
 
@@ -33,6 +35,14 @@ fun BookCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    val backgroundColor = try {
+        Color(android.graphics.Color.parseColor(book.backgroundColor))
+    } catch (e: Exception) {
+        Color.White
+    }
+
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -55,7 +65,7 @@ fun BookCard(
                     text = book.title,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
+                    color = Color.Black,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -65,7 +75,7 @@ fun BookCard(
                 Text(
                     text = book.author,
                     fontSize = 14.sp,
-                    color = Color.White.copy(alpha = 0.9f),
+                    color = Color.Black.copy(alpha = 0.9f),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -73,9 +83,9 @@ fun BookCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "a",//book.pages,
+                    text = "Número de páginas: ${book.numberOfPages}",
                     fontSize = 12.sp,
-                    color = Color.White.copy(alpha = 0.8f)
+                    color = Color.Black.copy(alpha = 0.8f)
                 )
             }
 
@@ -85,15 +95,21 @@ fun BookCard(
                 modifier = Modifier
                     .size(width = 70.dp, height = 100.dp)
                     .background(
-                        Color.White.copy(alpha = 0.3f),
+                        backgroundColor,
                         RoundedCornerShape(8.dp)
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = "📚",
-                    fontSize = 32.sp
+
+                AsyncImage(
+                    model = book.urlImage,
+                    contentDescription = "Imagen del libro",
+                    modifier = Modifier
+                        .size(180.dp)
+                        .padding(16.dp),
+                    contentScale = ContentScale.Fit
                 )
+
             }
         }
     }
