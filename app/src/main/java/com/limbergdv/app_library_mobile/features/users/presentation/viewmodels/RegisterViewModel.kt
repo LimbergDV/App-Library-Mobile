@@ -1,4 +1,4 @@
-package com.limbergdv.app_library_mobile.features.register.presentation.viewmodels
+package com.limbergdv.app_library_mobile.features.users.presentation.viewmodels
 
 import android.util.Patterns
 import androidx.lifecycle.ViewModel

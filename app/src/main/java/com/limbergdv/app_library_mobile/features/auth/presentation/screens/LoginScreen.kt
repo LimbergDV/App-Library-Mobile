@@ -1,5 +1,6 @@
-package com.limbergdv.app_library_mobile.features.login.presentation.screens
+package com.limbergdv.app_library_mobile.features.auth.presentation.screens
 
+import android.app.Application
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,10 +20,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -35,15 +38,24 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.limbergdv.app_library_mobile.R
-import com.limbergdv.app_library_mobile.features.login.presentation.viewmodels.LoginViewModel
-
+import com.limbergdv.app_library_mobile.features.auth.presentation.viewmodels.LoginViewModel
+import com.limbergdv.app_library_mobile.features.auth.presentation.viewmodels.LoginViewModelFactory
 
 @Composable
 fun LoginScreen(
+    factory: LoginViewModelFactory, // <--- Aquí recibimos el factory inyectado
     onNavigateToRegister: () -> Unit = {},
-    viewModel: LoginViewModel = viewModel()
+    onLoginSuccess: () -> Unit = {},
 ) {
+    val viewModel: LoginViewModel = viewModel(factory = factory)
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = uiState.token) {
+        if (uiState.token != null) {
+            onLoginSuccess()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -124,10 +136,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = {
-                viewModel.onLoginClick()
-                // TODO: Navegar a home cuando el login sea exitoso
-            },
+            onClick = { viewModel.onLoginClick() },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
