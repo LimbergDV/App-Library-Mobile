@@ -1,4 +1,4 @@
-package com.limbergdv.app_library_mobile.features.library.presentation.screeens
+package com.limbergdv.app_library_mobile.features.library.presentation.screens
 
 data class RegisterUiState(
     val email: String = "",

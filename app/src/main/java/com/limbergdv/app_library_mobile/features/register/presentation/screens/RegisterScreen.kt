@@ -1,4 +1,4 @@
-package com.limbergdv.app_library_mobile.features.library.presentation.screeens
+package com.limbergdv.app_library_mobile.features.register.presentation.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -35,23 +37,26 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.limbergdv.app_library_mobile.R
-import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.LoginViewModel
+import com.limbergdv.app_library_mobile.features.register.presentation.viewmodels.RegisterViewModel
 
 
 @Composable
-fun LoginScreen(
-    onNavigateToRegister: () -> Unit = {},
-    viewModel: LoginViewModel = viewModel()
+fun RegisterScreen(
+    onNavigateToLogin: () -> Unit = {},
+    viewModel: RegisterViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp),
+            .padding(horizontal = 24.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Spacer(modifier = Modifier.height(40.dp))
+
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "Logo",
@@ -61,7 +66,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Inicio de sesión",
+            text = "Registro",
             fontSize = 32.sp,
             fontWeight = FontWeight.ExtraBold,
             color = Color(0xFF1E88E5),
@@ -74,7 +79,7 @@ fun LoginScreen(
             value = uiState.email,
             onValueChange = { viewModel.onEmailChange(it) },
             label = { Text("Correo Electrónico") },
-            placeholder = { Text("Ingresa tu correo electrónico") },
+            placeholder = { Text("example@domail.com") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             isError = uiState.emailError != null,
@@ -83,6 +88,12 @@ fun LoginScreen(
                     Text(
                         text = uiState.emailError ?: "",
                         color = MaterialTheme.colorScheme.error
+                    )
+                } else {
+                    Text(
+                        text = "Ingresa una dirección de correo válida",
+                        color = Color.Gray,
+                        fontSize = 12.sp
                     )
                 }
             },
@@ -100,7 +111,7 @@ fun LoginScreen(
             value = uiState.password,
             onValueChange = { viewModel.onPasswordChange(it) },
             label = { Text("Contraseña") },
-            placeholder = { Text("Ingresa tu contraseña") },
+            placeholder = { Text("Ingresa una contraseña") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
@@ -121,12 +132,39 @@ fun LoginScreen(
             shape = RoundedCornerShape(8.dp)
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = uiState.confirmPassword,
+            onValueChange = { viewModel.onConfirmPasswordChange(it) },
+            label = { Text("Confirmar Contraseña") },
+            placeholder = { Text("Vuelve a ingresar tu contraseña") },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
+            isError = uiState.confirmPasswordError != null,
+            supportingText = {
+                if (uiState.confirmPasswordError != null) {
+                    Text(
+                        text = uiState.confirmPasswordError ?: "",
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFF1E88E5),
+                unfocusedBorderColor = Color.Gray,
+                focusedLabelColor = Color(0xFF1E88E5)
+            ),
+            shape = RoundedCornerShape(8.dp)
+        )
+
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
             onClick = {
-                viewModel.onLoginClick()
-                // TODO: Navegar a home cuando el login sea exitoso
+                viewModel.onRegisterClick()
+                // TODO: Navegar a home cuando el registro sea exitoso
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -144,7 +182,7 @@ fun LoginScreen(
                 )
             } else {
                 Text(
-                    text = "Iniciar Sesión",
+                    text = "Registrarse",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium
                 )
@@ -154,17 +192,19 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         val annotatedText = buildAnnotatedString {
-            append("¿No tienes una cuenta? ")
+            append("¿Tienes una cuenta creada? ")
             withStyle(style = SpanStyle(color = Color(0xFF1E88E5), fontWeight = FontWeight.Bold)) {
-                append("Regístrate")
+                append("Inicia sesión")
             }
         }
 
         Text(
             text = annotatedText,
             fontSize = 14.sp,
-            modifier = Modifier.clickable { onNavigateToRegister() },
+            modifier = Modifier.clickable { onNavigateToLogin() },
             textAlign = TextAlign.Center
         )
+
+        Spacer(modifier = Modifier.height(40.dp))
     }
 }
