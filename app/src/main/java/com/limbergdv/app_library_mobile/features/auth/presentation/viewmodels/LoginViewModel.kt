@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.limbergdv.app_library_mobile.features.auth.domain.usecases.LoginUseCase
 import com.limbergdv.app_library_mobile.features.auth.presentation.screens.LoginUiState
-import com.limbergdv.app_library_mobile.features.users.domain.User
+import com.limbergdv.app_library_mobile.features.users.domain.entities.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

@@ -21,6 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,14 +39,23 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.limbergdv.app_library_mobile.R
 import com.limbergdv.app_library_mobile.features.users.presentation.viewmodels.RegisterViewModel
+import com.limbergdv.app_library_mobile.features.users.presentation.viewmodels.RegisterViewModelFactory
 
 
 @Composable
 fun RegisterScreen(
+    factory: RegisterViewModelFactory,
     onNavigateToLogin: () -> Unit = {},
-    viewModel: RegisterViewModel = viewModel()
-) {
+){
+    val viewModel: RegisterViewModel = viewModel(factory = factory)
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    // 3. Efecto de Navegación: Si el registro es exitoso, vamos al Login
+    LaunchedEffect(key1 = uiState.isRegisterSuccess) {
+        if (uiState.isRegisterSuccess) {
+            onNavigateToLogin()
+        }
+    }
 
     Column(
         modifier = Modifier
