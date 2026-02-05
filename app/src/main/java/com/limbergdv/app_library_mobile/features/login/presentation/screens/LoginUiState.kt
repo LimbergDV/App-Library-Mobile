@@ -1,4 +1,4 @@
-package com.limbergdv.app_library_mobile.features.library.presentation.screens
+package com.limbergdv.app_library_mobile.features.login.presentation.screens
 
 data class LoginUiState (
     val email: String = "",

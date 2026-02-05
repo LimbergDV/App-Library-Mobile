@@ -1,5 +1,6 @@
-package com.limbergdv.app_library_mobile.features.library.presentation.viewmodels
+package com.limbergdv.app_library_mobile.features.register.presentation.viewmodels
 
+import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import com.limbergdv.app_library_mobile.features.library.presentation.screens.RegisterUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +30,7 @@ class RegisterViewModel : ViewModel() {
             return
         }
 
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(_uiState.value.email).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(_uiState.value.email).matches()) {
             _uiState.update { it.copy(emailError = "Ingresa una dirección de correo válida") }
             return
         }
