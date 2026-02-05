@@ -13,3 +13,9 @@ data class BookEdit(val bookJson: String)
 
 @Serializable
 object BookAdd
+
+@Serializable
+object Login
+
+@Serializable
+object Register

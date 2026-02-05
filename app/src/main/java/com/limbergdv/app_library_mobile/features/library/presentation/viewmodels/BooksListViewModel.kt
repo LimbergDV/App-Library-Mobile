@@ -24,21 +24,27 @@ class BooksListViewModel : ViewModel() {
                 title = "El principito",
                 author = "Antoine de Saint Raynol & Hitchcock",
                 editorial = "Raynol & Hitchcock",
-                pages = "120 páginas"
+                numberOfPages = 120,
+                urlImage = "",
+                backgroundColor =  ""
             ),
             Book(
                 id = "2",
                 title = "Don quijote de la mancha",
                 author = "Miguel de Cervantes",
                 editorial = "Juan de la Cuesta",
-                pages = "1,400 páginas"
+                numberOfPages = 1400,
+                urlImage = "",
+                backgroundColor =  ""
             ),
             Book(
                 id = "3",
                 title = "La odisea",
                 author = "Homero",
                 editorial = "Alianza Editorial",
-                pages = "435 páginas"
+                numberOfPages = 435,
+                urlImage = "",
+                backgroundColor =  ""
             )
         )
         _uiState.update { it.copy(books = mockBooks) }
