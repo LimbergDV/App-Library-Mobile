@@ -32,15 +32,19 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.limbergdv.app_library_mobile.features.library.domain.entities.Book
 import com.limbergdv.app_library_mobile.features.library.presentation.components.BookCard
+import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.BookListViewModelFactory
 import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.BooksListViewModel
 
 
 @Composable
 fun BooksListScreen(
+    factory: BookListViewModelFactory, // <--- 1. Recibimos el Factory aquí
     onNavigateToAddBook: () -> Unit = {},
     onNavigateToBookDetail: (Book) -> Unit = {},
-    viewModel: BooksListViewModel = viewModel()
 ) {
+    // 2. Inicializamos el ViewModel pasando el factory
+    val viewModel: BooksListViewModel = viewModel(factory = factory)
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val bookColors = listOf(
