@@ -40,7 +40,7 @@ interface LibraryApi {
 
 
     @Multipart
-    @PUT("books/")
+    @PUT("books")
     suspend fun updateBook(
         @Part("book") bookJson: RequestBody,
         @Part image: MultipartBody.Part?,

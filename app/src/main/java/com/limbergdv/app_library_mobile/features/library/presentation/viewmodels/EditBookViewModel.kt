@@ -1,25 +1,46 @@
 package com.limbergdv.app_library_mobile.features.library.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.limbergdv.app_library_mobile.features.library.domain.entities.Book
+import com.limbergdv.app_library_mobile.features.library.domain.usecases.GetBookByIdUseCase
+import com.limbergdv.app_library_mobile.features.library.domain.usecases.UpdateBookUseCase
 import com.limbergdv.app_library_mobile.features.library.presentation.screens.EditBookUiState
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import java.io.File
 
-class EditBookViewModel : ViewModel() {
+class EditBookViewModel(
+    private val getBookByIdUseCase: GetBookByIdUseCase,
+    private val updateBookUseCase: UpdateBookUseCase
+) : ViewModel() {
+
     private val _uiState = MutableStateFlow(EditBookUiState())
-    val uiState = _uiState.asStateFlow()
+    val uiState: StateFlow<EditBookUiState> = _uiState.asStateFlow()
 
-    fun loadBook(book: Book) {
-        _uiState.update {
-            it.copy(
-                title = book.title,
-                author = book.author,
-                editorial = book.editorial,
-                pages = book.numberOfPages.toString(),
-
-            )
+    fun loadBook(bookId: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, error = null) }
+            getBookByIdUseCase(bookId)
+                .onSuccess { book ->
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            id = book.id,
+                            title = book.title,
+                            author = book.author,
+                            editorial = book.editorial,
+                            pages = book.numberOfPages.toString(),
+                            photoUrl = book.urlImage
+                        )
+                    }
+                }
+                .onFailure { exception ->
+                    _uiState.update { it.copy(isLoading = false, error = exception.message) }
+                }
         }
     }
 
@@ -39,37 +60,50 @@ class EditBookViewModel : ViewModel() {
         _uiState.update { it.copy(pages = pages, pagesError = null) }
     }
 
-    fun onPhotoUrlChange(url: String) {
-        _uiState.update { it.copy(photoUrl = url) }
+    fun onPhotoSelected(uri: String) {
+        _uiState.update { it.copy(photoUrl = uri, error = null) }
     }
 
-    fun validateAndUpdate(): Boolean {
-        var hasErrors = false
+    fun onUpdateBookClicked(image: File?) {
+        val state = _uiState.value
+        val pagesInt = state.pages.toIntOrNull()
 
-        if (_uiState.value.title.isBlank()) {
-            _uiState.update { it.copy(titleError = "El título es requerido") }
-            hasErrors = true
+        val titleError = if (state.title.isBlank()) "El título es requerido" else null
+        val authorError = if (state.author.isBlank()) "El autor es requerido" else null
+        val editorialError = if (state.editorial.isBlank()) "La editorial es requerida" else null
+        val pagesError = if (pagesInt == null || pagesInt <= 0) "El número de páginas debe ser mayor a 0" else null
+
+        _uiState.update {
+            it.copy(
+                titleError = titleError,
+                authorError = authorError,
+                editorialError = editorialError,
+                pagesError = pagesError
+            )
         }
 
-        if (_uiState.value.author.isBlank()) {
-            _uiState.update { it.copy(authorError = "El autor es requerido") }
-            hasErrors = true
+        val hasError = titleError != null || authorError != null || editorialError != null || pagesError != null
+        if (hasError) return
+
+        val book = Book(
+            id = state.id!!,
+            title = state.title,
+            author = state.author,
+            editorial = state.editorial,
+            numberOfPages = pagesInt!!,
+            urlImage = state.photoUrl, // El ViewModel no debe construir la URL
+            backgroundColor = "" // No es responsabilidad del ViewModel
+        )
+
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, error = null) }
+            updateBookUseCase(book, image)
+                .onSuccess {
+                    _uiState.update { it.copy(isLoading = false, isBookUpdated = true) }
+                }
+                .onFailure { exception ->
+                    _uiState.update { it.copy(isLoading = false, error = exception.message) }
+                }
         }
-
-        if (_uiState.value.editorial.isBlank()) {
-            _uiState.update { it.copy(editorialError = "La editorial es requerida") }
-            hasErrors = true
-        }
-
-        if (_uiState.value.pages.isBlank()) {
-            _uiState.update { it.copy(pagesError = "Las páginas son requeridas") }
-            hasErrors = true
-        }
-
-        if (hasErrors) return false
-
-        // TODO: Actualizar libro con API
-        _uiState.update { it.copy(isLoading = true) }
-        return true
     }
 }

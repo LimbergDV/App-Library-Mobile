@@ -82,7 +82,7 @@ class BooksNavGraph (
             val book = Gson().fromJson(args.bookJson, Book::class.java)
 
             EditBookScreen(
-                book = book,
+                bookId = book.id,
                 onNavigateBack = {
                     navController.navigateUp()
                 }
