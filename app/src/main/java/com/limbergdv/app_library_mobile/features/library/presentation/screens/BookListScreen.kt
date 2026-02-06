@@ -117,10 +117,8 @@ fun BooksListScreen(
                 contentPadding = PaddingValues(bottom = 80.dp)
             ) {
                 items(filteredBooks) { book ->
-                    val colorIndex = filteredBooks.indexOf(book) % bookColors.size
                     BookCard(
                         book = book,
-                        backgroundColor = bookColors[colorIndex],
                         onClick = { onNavigateToBookDetail(book) }
                     )
                 }

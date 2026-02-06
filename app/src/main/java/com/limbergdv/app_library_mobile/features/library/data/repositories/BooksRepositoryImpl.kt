@@ -65,7 +65,8 @@ class BooksRepositoryImpl (
         return result.data.toDomain()
     }
 
-    override suspend fun deleteBook(bookId: String) {
-        api.deleteBook(bookId)
+    override suspend fun deleteBook(bookId: String): Boolean {
+        val result = api.deleteBook(bookId)
+        return result.success
     }
 }

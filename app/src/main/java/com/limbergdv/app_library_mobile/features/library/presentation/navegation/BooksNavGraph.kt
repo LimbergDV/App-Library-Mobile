@@ -22,11 +22,13 @@ class BooksNavGraph (
     private val appContainer: AppContainer
 ) : FeatureNavGraph {
 
+    val booksModule: BooksModule = BooksModule(appContainer)
+
     override fun registerGraph(navGraphBuilder: NavGraphBuilder, navController: NavController) {
 
         navGraphBuilder.composable<BooksList> {
             BooksListScreen(
-                factory = BooksModule(appContainer).provideBooksListViewModelFactory(),
+                factory = booksModule.provideBooksListViewModelFactory(),
                 onNavigateToAddBook = {
                     navController.navigate(BookAdd)
                 },
@@ -52,6 +54,7 @@ class BooksNavGraph (
             val book = Gson().fromJson(args.bookJson, Book::class.java)
 
             BookDetailScreen(
+                factory = booksModule.provideDetailsViewModelFactory(),
                 book = book,
                 onNavigateBack = {
                     navController.navigateUp()
@@ -59,6 +62,11 @@ class BooksNavGraph (
                 onNavigateToEdit = { bookToEdit ->
                     val bookJson = Gson().toJson(bookToEdit)
                     navController.navigate(BookEdit(bookJson = bookJson))
+                },
+                onDeleteSuccess = {
+                    navController.navigate(BooksList) {
+                        popUpTo(BooksList) { inclusive = true }
+                    }
                 }
             )
         }

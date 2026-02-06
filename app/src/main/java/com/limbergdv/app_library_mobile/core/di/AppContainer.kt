@@ -8,6 +8,7 @@ import com.limbergdv.app_library_mobile.features.auth.data.repositories.AuthRepo
 import com.limbergdv.app_library_mobile.features.auth.domain.repositories.AuthRepository
 import com.limbergdv.app_library_mobile.features.library.data.repositories.BooksRepositoryImpl
 import com.limbergdv.app_library_mobile.features.library.domain.repositories.BookRepository
+import com.limbergdv.app_library_mobile.features.library.domain.usecases.DeleteBookUseCase
 import com.limbergdv.app_library_mobile.features.users.data.repositories.UserRepositoryImpl
 import com.limbergdv.app_library_mobile.features.users.domain.repositories.UserRepository
 import okhttp3.OkHttpClient
@@ -46,6 +47,10 @@ class AppContainer(context: Context) {
 
     val bookRepository: BookRepository by lazy {
         BooksRepositoryImpl(libraryApi)
+    }
+
+    val deleteBookUseCase: DeleteBookUseCase by lazy {
+        DeleteBookUseCase(bookRepository)
     }
 
 }

@@ -43,19 +43,28 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.limbergdv.app_library_mobile.features.library.domain.entities.Book
 import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.BookDetailViewModel
+import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.BookDetailsViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookDetailScreen(
     book: Book,
+    factory: BookDetailsViewModelFactory,
     onNavigateBack: () -> Unit = {},
     onNavigateToEdit: (Book) -> Unit = {},
-    viewModel: BookDetailViewModel = viewModel()
+    onDeleteSuccess: () -> Unit = {},
 ) {
+    val viewModel: BookDetailViewModel = viewModel(factory = factory)
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(book) {
         viewModel.loadBook(book)
+    }
+
+    LaunchedEffect(uiState.isDeletedSuccess) {
+        if (uiState.isDeletedSuccess) {
+            onDeleteSuccess()
+        }
     }
 
     Scaffold(
@@ -247,9 +256,7 @@ fun BookDetailScreen(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        if (viewModel.deleteBook()) {
-                            onNavigateBack()
-                        }
+                        viewModel.deleteBook()
                     }
                 ) {
                     Text("Eliminar", color = Color(0xFFE53935))
