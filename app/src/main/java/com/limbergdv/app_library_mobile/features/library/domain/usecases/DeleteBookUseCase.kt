@@ -5,7 +5,7 @@ import com.limbergdv.app_library_mobile.features.library.domain.repositories.Boo
 class DeleteBookUseCase(
     private val repository: BookRepository
 ) {
-    suspend operator fun invoke(id: String): Result<Unit> {
+    suspend operator fun invoke(id: String): Result<Boolean> {
         return try {
             if (id.isBlank()) {
                 return Result.failure(Exception("El ID del libro es requerido"))

@@ -49,7 +49,7 @@ interface LibraryApi {
     @DELETE("books/{id}")
     suspend fun deleteBook(
         @Path("id") id: String,
-    ): ApiResponse<Unit>
+    ): ApiResponse<Boolean>
 
 }
 

@@ -1,8 +1,6 @@
 package com.limbergdv.app_library_mobile.features.library.presentation.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,7 +29,6 @@ import com.limbergdv.app_library_mobile.features.library.domain.entities.Book
 @Composable
 fun BookCard(
     book: Book,
-    backgroundColor: Color,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
