@@ -7,6 +7,8 @@ data class AddBookUiState (
     val pages: String = "",
     val photoUrl: String = "",
     val isLoading: Boolean = false,
+    val isBookCreated: Boolean = false,
+    val error: String? = null,
     val titleError: String? = null,
     val authorError: String? = null,
     val editorialError: String? = null,
