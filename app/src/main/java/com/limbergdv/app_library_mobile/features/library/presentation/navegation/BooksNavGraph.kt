@@ -84,7 +84,9 @@ class BooksNavGraph (
             EditBookScreen(
                 bookId = book.id,
                 onNavigateBack = {
-                    navController.navigateUp()
+                    navController.navigate(BooksList) {
+                        popUpTo(BooksList) { inclusive = true }
+                    }
                 }
             )
         }

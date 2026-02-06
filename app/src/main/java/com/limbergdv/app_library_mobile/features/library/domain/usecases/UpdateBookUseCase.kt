@@ -7,7 +7,7 @@ import java.io.File
 class UpdateBookUseCase(
     private val repository: BookRepository
 ) {
-    suspend operator fun invoke(book: Book, image: File?): Result<Book> {
+    suspend operator fun invoke(book: Book, image: File): Result<Book> {
         return try {
             // Validaciones de negocio
             if (book.id.isBlank()) {
