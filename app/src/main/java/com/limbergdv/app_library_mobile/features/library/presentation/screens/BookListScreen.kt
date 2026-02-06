@@ -57,7 +57,7 @@ fun BooksListScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNavigateToAddBook,
-                containerColor = Color(0xFF4CAF50),
+                containerColor = Color(0xFF2196F3),
                 shape = CircleShape
             ) {
                 Icon(
