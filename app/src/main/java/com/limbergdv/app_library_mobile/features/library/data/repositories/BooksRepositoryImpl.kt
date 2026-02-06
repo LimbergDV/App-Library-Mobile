@@ -47,17 +47,19 @@ class BooksRepositoryImpl (
 
     override suspend fun updateBook(
         book: Book,
-        image: File?
+        image: File
     ): Book {
         val gson = Gson()
         val bookJsonString = gson.toJson(book)
 
-        val bookRequestBody = MultipartBody.Part.createFormData("book", null, bookJsonString.toRequestBody("application/json".toMediaTypeOrNull()))
+        val bookRequestBody = bookJsonString.toRequestBody("application/json".toMediaTypeOrNull())
 
-        val imagePart = image?.let {
-            val requestFile = it.asRequestBody("image/*".toMediaTypeOrNull())
-            MultipartBody.Part.createFormData("image", it.name, requestFile)
-        }
+        val requestFile = image.asRequestBody("image/*".toMediaTypeOrNull())
+        val imagePart = MultipartBody.Part.createFormData(
+            "image",       // Nombre del campo que espera el backend
+            image.name,    // Nombre del archivo
+            requestFile    // El contenido
+        )
 
         val result = api.updateBook(bookRequestBody, imagePart)
         return result.data.toDomain()

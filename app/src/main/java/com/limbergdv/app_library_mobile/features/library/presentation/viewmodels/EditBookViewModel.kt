@@ -97,7 +97,7 @@ class EditBookViewModel(
 
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            updateBookUseCase(book, image)
+            updateBookUseCase(book, image!!)
                 .onSuccess {
                     _uiState.update { it.copy(isLoading = false, isBookUpdated = true) }
                 }
