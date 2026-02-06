@@ -6,12 +6,12 @@ import com.limbergdv.app_library_mobile.features.library.domain.usecases.DeleteB
 import com.limbergdv.app_library_mobile.features.library.domain.usecases.GetBookByIdUseCase
 import com.limbergdv.app_library_mobile.features.library.domain.usecases.GetBooksUseCase
 import com.limbergdv.app_library_mobile.features.library.domain.usecases.UpdateBookUseCase
-
-import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.BookDetailsViewModelFactory
 import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.AddBookViewModelFactory
+import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.BookDetailsViewModelFactory
 import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.BookListViewModelFactory
+import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.EditBookViewModelFactory
 
-class BooksModule (
+class BooksModule(
     private val appContainer: AppContainer
 ) {
 
@@ -35,10 +35,6 @@ class BooksModule (
         return UpdateBookUseCase(appContainer.bookRepository)
     }
 
-
-    //fun provideGetViewModelFactory(): RegisterViewModelFactory {
-    //    return RegisterViewModelFactory(providerCreateUserUseCase())
-    //}
     fun provideAddBookViewModelFactory(): AddBookViewModelFactory {
         return AddBookViewModelFactory(provaiderCreateBookUseCase())
     }
@@ -51,6 +47,8 @@ class BooksModule (
         return BookDetailsViewModelFactory(provaiderDeleteBookUseCase())
     }
 
-
+    fun provideEditBookViewModelFactory(): EditBookViewModelFactory {
+        return EditBookViewModelFactory(provaiderGetBookByIdUseCase(), provaiderUpdateUseCase())
+    }
 
 }
