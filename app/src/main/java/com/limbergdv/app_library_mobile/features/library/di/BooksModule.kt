@@ -7,6 +7,7 @@ import com.limbergdv.app_library_mobile.features.library.domain.usecases.GetBook
 import com.limbergdv.app_library_mobile.features.library.domain.usecases.GetBooksUseCase
 import com.limbergdv.app_library_mobile.features.library.domain.usecases.UpdateBookUseCase
 import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.AddBookViewModelFactory
+import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.BookListViewModelFactory
 import com.limbergdv.app_library_mobile.features.users.presentation.viewmodels.RegisterViewModelFactory
 
 class BooksModule (
@@ -39,6 +40,10 @@ class BooksModule (
     //}
     fun provideAddBookViewModelFactory(): AddBookViewModelFactory {
         return AddBookViewModelFactory(provaiderCreateBookUseCase())
+    }
+
+    fun provideBooksListViewModelFactory(): BookListViewModelFactory {
+        return BookListViewModelFactory(provaiderGetBooksUseCase())
     }
 
 }
