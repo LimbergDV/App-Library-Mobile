@@ -1,4 +1,4 @@
-package com.limbergdv.app_library_mobile.features.library.navigation
+package com.limbergdv.app_library_mobile.features.library.presentation.navegation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -44,6 +44,11 @@ class BooksNavGraph (
             AddBookScreen(
                 onNavigateBack = {
                     navController.navigateUp()
+                },
+                onCreatedSuccess = {
+                    navController.navigate(BooksList) {
+                        popUpTo(BooksList) { inclusive = true }
+                    }
                 }
             )
         }

@@ -8,7 +8,7 @@ import com.limbergdv.app_library_mobile.core.di.AppContainer
 import com.limbergdv.app_library_mobile.core.navigation.AuthNavGraph
 import com.limbergdv.app_library_mobile.core.navigation.NavigationWrapper
 import com.limbergdv.app_library_mobile.core.ui.theme.AppTheme
-import com.limbergdv.app_library_mobile.features.library.navigation.BooksNavGraph
+import com.limbergdv.app_library_mobile.features.library.presentation.navegation.BooksNavGraph
 
 
 class MainActivity : ComponentActivity() {

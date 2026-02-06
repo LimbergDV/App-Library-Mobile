@@ -81,7 +81,8 @@ private fun uriToFile(context: Context, uri: Uri): File {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddBookScreen(
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onCreatedSuccess: () -> Unit
 ) {
     val context = LocalContext.current
     val booksModule = remember { BooksModule(AppContainer(context.applicationContext)) }
@@ -106,7 +107,7 @@ fun AddBookScreen(
 
     LaunchedEffect(uiState.isBookCreated) {
         if (uiState.isBookCreated) {
-            onNavigateBack()
+            onCreatedSuccess()
         }
     }
 
