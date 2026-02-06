@@ -36,11 +36,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.limbergdv.app_library_mobile.features.library.domain.entities.Book
 import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.BookDetailViewModel
 import com.limbergdv.app_library_mobile.features.library.presentation.viewmodels.BookDetailsViewModelFactory
@@ -187,18 +189,10 @@ fun BookDetailScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(
-                        imageVector = Icons.Default.AddCircle,
-                        contentDescription = "Foto del libro",
-                        modifier = Modifier.size(64.dp),
-                        tint = Color(0xFF2196F3)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Add photos",
-                        fontSize = 16.sp,
-                        color = Color(0xFF2196F3),
-                        fontWeight = FontWeight.Medium
+                    AsyncImage(
+                        model = book.urlImage,
+                        contentDescription = "Imagen del libro",
+                        contentScale = ContentScale.Fit
                     )
                 }
             }
